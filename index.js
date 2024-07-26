@@ -26,6 +26,7 @@ app.get("/products/:id", async (req, res) => {
   // console.log(id)
   const product = await Product.findById(id) //* id検索 時間かかる
   // res.send(product)
+  res.render("products/show",{product})
 })
 
 app.get("/dogs", (req, res) => {
