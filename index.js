@@ -4,7 +4,7 @@ const path = require("path")
 const mongoose = require("mongoose")
 const Product = require("./models/product.js")
 const { urlencoded } = require("body-parser")
-const methodOverride = require("method-override") 
+const methodOverride = require("method-override")
 
 mongoose
   .connect("mongodb://localhost:27017/express-mongodb1", { useNewUrlParser: true, useUnifiedTopology: true })
@@ -21,6 +21,8 @@ app.use(urlencoded({ extended: true }))
 
 app.use(methodOverride("_method"))
 
+const categories = ["果物", "野菜", "乳製品"]
+
 app.get("/products", async (req, res) => {
   const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
   console.log(products)
@@ -28,10 +30,10 @@ app.get("/products", async (req, res) => {
 })
 
 app.get("/products/new", (req, res) => {
-  res.render("products/new")
+  res.render("products/new", { categories })
 })
 
-app.post("/products",async (req, res) => {
+app.post("/products", async (req, res) => {
   console.log(req.body)
   // const { name, price, category } = req.body
   // console.log(name,price,category)
@@ -51,22 +53,28 @@ app.get("/products/:id", async (req, res) => {
   res.render("products/show", { product })
 })
 
-app.get("/products/:id/edit",async (req,res)=>{
+app.get("/products/:id/edit", async (req, res) => {
   const { id } = req.params
   const product = await Product.findById(id) //* id検索 時間かかる
-res.render("products/edit",{product})
+  res.render("products/edit", { product, categories })
 })
 
-app.put("/products/:id",async (req,res)=>{
-  const {id} = req.params
+app.put("/products/:id", async (req, res) => {
+  const { id } = req.params
   // console.log(id)
-  const product = await Product.findByIdAndUpdate(id,req.body,{runValidators: true,new: true}) //* 待たないと
-   //* 第一引数が調べたいもの　第二引数が変更したいキーとバリュー
+  const product = await Product.findByIdAndUpdate(id, req.body, { runValidators: true, new: true }) //* 待たないと
+  //* 第一引数が調べたいもの　第二引数が変更したいキーとバリュー
   //  console.log(product)
   res.redirect(`/products/${product._id}`)
-// console.log("put")
-// console.log(req.body)
-// res.send("aa")
+  // console.log("put")
+  // console.log(req.body)
+  // res.send("aa")
+})
+
+app.delete("/products/:id", async (req, res) => {
+  const { id } = req.params
+  await Product.findByIdAndDelete(id) //* id検索 時間かかる 消すだけだから変数に入れる必要がない
+ res.redirect("/products")
 })
 
 app.get("/dogs", (req, res) => {
