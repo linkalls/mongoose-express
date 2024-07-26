@@ -6,12 +6,15 @@
     <title>product index</title>
   </head>
   <body>
-    <h1>商品一覧</h1>
+    <h1><%= category %>商品一覧</h1>
     <ul>
       <% for (let product of products ){ %>
       <li><a href="/products/<%= product.id %>"><%= product.name %></a></li>
       <% } %>
     </ul>
     <a href="/products/new">新規作成</a>
+   <% if (category !== "全") { %>
+    <a href="/products">全一覧へ</a>
+   <% } %>
   </body>
 </html>

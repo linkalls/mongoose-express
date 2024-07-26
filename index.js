@@ -24,9 +24,19 @@ app.use(methodOverride("_method"))
 const categories = ["果物", "野菜", "乳製品"]
 
 app.get("/products", async (req, res) => {
-  const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
-  console.log(products)
-  res.render("products/index", { products })
+  const { category } = req.query //* queryじゃない
+  // console.log(category)
+  if (category) {
+    const products = await Product.find({ category })
+    console.log(category)
+    res.render("products/index", { products,category })
+
+    //* categoryがparamsにあったらcategoryをdbから検索　名前一緒だから省略記法
+  } else {
+    const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
+    // console.log(products)
+    res.render("products/index", { products,category: "全" })
+  }
 })
 
 app.get("/products/new", (req, res) => {
@@ -74,7 +84,7 @@ app.put("/products/:id", async (req, res) => {
 app.delete("/products/:id", async (req, res) => {
   const { id } = req.params
   await Product.findByIdAndDelete(id) //* id検索 時間かかる 消すだけだから変数に入れる必要がない
- res.redirect("/products")
+  res.redirect("/products")
 })
 
 app.get("/dogs", (req, res) => {
