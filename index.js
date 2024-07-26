@@ -17,6 +17,8 @@ app.set("view engine", "ejs")
 
 app.set("/products", async (req, res) => {
  const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
+ console.log(products)
+ console.log("商品一覧")
 })
 
 app.get("/dogs", (req, res) => {
