@@ -11,16 +11,15 @@ mongoose
   })
   .catch((error) => console.log("MongoDbエラー", error))
 
-
 app.set("views", path.join(__dirname, "views"))
 
 app.set("view engine", "ejs")
 
+app.set("/products", async (req, res) => {
+ const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
+})
 
-
-
-
-app.get("/dogs",(req,res)=>{
+app.get("/dogs", (req, res) => {
   res.send("dogs")
 })
 
