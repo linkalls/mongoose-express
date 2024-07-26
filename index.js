@@ -58,8 +58,15 @@ res.render("products/edit",{product})
 })
 
 app.put("/products/:id",async (req,res)=>{
-console.log("put")
-res.send("aa")
+  const {id} = req.params
+  // console.log(id)
+  const product = await Product.findByIdAndUpdate(id,req.body,{runValidators: true,new: true}) //* 待たないと
+   //* 第一引数が調べたいもの　第二引数が変更したいキーとバリュー
+  //  console.log(product)
+  res.redirect(`/products/${product._id}`)
+// console.log("put")
+// console.log(req.body)
+// res.send("aa")
 })
 
 app.get("/dogs", (req, res) => {

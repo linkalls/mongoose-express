@@ -7,7 +7,7 @@
 </head>
 <body>
   <h1>商品編集</h1>
-  <form method="post" action="/products/<%= product.id %>_method=PUT" >
+   <form method="post" action="/products/<%= product.id %>?_method=put" > <!-- ?忘れてた -->
     <label for="name">商品名</label>
     <input type="text" name="name" id="name" placeholder="商品名" value="<%= product.name %>">
 <label for="price">価格</label>
