@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const path = require("path")
 const mongoose = require("mongoose")
-
+const Product = require("./models/product.js")
 
 mongoose
   .connect("mongodb://localhost:27017/express-mongodb1", { useNewUrlParser: true, useUnifiedTopology: true })

@@ -12,10 +12,13 @@ const productSchema = new mongoose.Schema({
   },
   category: {
     type: String,
-    enum: ["果物","野菜","乳製品"]
+    enum: ["果物","野菜","乳製品"] //* ここで設定された値以外を入れようとするとエラーになるらしい。
   }
 })
 
 
 const Product = mongoose.model("Product",productSchema)
+
+
+module.exports = Product //* これでほかのファイルから使いやすく
 
