@@ -35,7 +35,7 @@ app.post("/products",async (req, res) => {
   const newProduct = new Product(req.body)
   await newProduct.save()
   console.log(newProduct)
-  res.redirect("/products")
+  res.redirect(`/products/${newProduct.id}`)
   //* postだから //* おまじない書かなきゃ app.use(urlencoded({extended: true}))
   //* formからのをぱーすする
 })
