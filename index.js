@@ -16,9 +16,16 @@ app.set("views", path.join(__dirname, "views"))
 app.set("view engine", "ejs")
 
 app.get("/products", async (req, res) => {
- const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
- console.log(products)
- res.render("products/index",{products})
+  const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
+  console.log(products)
+  res.render("products/index", { products })
+})
+
+app.get("/products/:id", async (req, res) => {
+  const { id } = req.params
+  // console.log(id)
+  const product = await Product.findById(id) //* id検索 時間かかる
+  // res.send(product)
 })
 
 app.get("/dogs", (req, res) => {
