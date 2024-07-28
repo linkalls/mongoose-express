@@ -68,6 +68,11 @@ app.post("/farms/:id/products", async (req, res) => {
   // res.send(req.body)
 })
 
+app.delete("/farms/:id",async (req,res)=>{
+await Farm.findByIdAndDelete(req.params.id)
+res.redirect("/farms")
+})
+
 //
 
 app.get("/products", async (req, res) => {
