@@ -5,9 +5,10 @@ const mongoose = require("mongoose")
 const Product = require("./models/product.js")
 const { urlencoded } = require("body-parser")
 const methodOverride = require("method-override")
+const Farm = require("./models/farm")
 
 mongoose
-  .connect("mongodb://localhost:27017/express-mongodb1", { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect("mongodb://localhost:27017/farmstand", { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log("接続ok")
   })
@@ -21,6 +22,25 @@ app.use(urlencoded({ extended: true }))
 
 app.use(methodOverride("_method"))
 
+//* Farm関連
+
+app.get("/farms",async(req,res)=>{
+const farms = await Farm.find({})
+res.render("farms/index",{farms})
+})
+
+app.get("/farms/new", (req, res) => {
+  res.render("farms/new")
+})
+
+app.post("/farms", async (req, res) => {
+  const farm = new Farm(req.body)
+  await farm.save()
+  res.redirect("/farms")
+})
+
+//
+
 const categories = ["果物", "野菜", "乳製品"]
 
 app.get("/products", async (req, res) => {
@@ -29,13 +49,13 @@ app.get("/products", async (req, res) => {
   if (category) {
     const products = await Product.find({ category })
     console.log(category)
-    res.render("products/index", { products,category })
+    res.render("products/index", { products, category })
 
     //* categoryがparamsにあったらcategoryをdbから検索　名前一緒だから省略記法
   } else {
     const products = await Product.find({}) //* 全部find 時間かかるからasync await ()内に{}入れるの忘れないで
     // console.log(products)
-    res.render("products/index", { products,category: "全" })
+    res.render("products/index", { products, category: "全" })
   }
 })
 
