@@ -13,10 +13,12 @@ const farmSchema = new Schema({
     type: String,
     required: [true, "emailが必要です"],
   },
-  products: {
-    type: Schema.Types.ObjectId,
-    ref: "Product", //*farmからproduct これで相互参照
-  },
+  products: [
+    {
+      type: Schema.Types.ObjectId, //* idしか入ってないからpopulateのProductsしなきゃいけない
+      ref: "Product", //*farmからproduct これで相互参照
+    },
+  ],
 })
 
 const Farm = mongoose.model("Farm", farmSchema)

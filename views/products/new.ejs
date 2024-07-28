@@ -7,7 +7,7 @@
   </head>
   <body>
     <h1>商品作成</h1>
-    <form action="/products" method="post">
+    <form action="/farms/<%= id %>/products" method="post">
       <label for="name">商品名</label>
       <input type="text" name="name" id="name" placeholder="商品名" />
       <label for="price">価格</label>

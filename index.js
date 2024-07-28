@@ -22,11 +22,12 @@ app.use(urlencoded({ extended: true }))
 
 app.use(methodOverride("_method"))
 
+const categories = ["果物", "野菜", "乳製品"]
 //* Farm関連
 
-app.get("/farms",async(req,res)=>{
-const farms = await Farm.find({})
-res.render("farms/index",{farms})
+app.get("/farms", async (req, res) => {
+  const farms = await Farm.find({})
+  res.render("farms/index", { farms })
 })
 
 app.get("/farms/new", (req, res) => {
@@ -39,15 +40,33 @@ app.post("/farms", async (req, res) => {
   res.redirect("/farms")
 })
 
-app.get("/farms/:id",async (req,res)=>{
-  const {id} = req.params
-const farm = await Farm.findById(id)
-res.render("farms/show",{farm})
+app.get("/farms/:id", async (req, res) => {
+  const { id } = req.params
+  const farm = await Farm.findById(id)
+  res.render("farms/show", { farm })
+})
+
+app.get("/farms/:id/products/new", (req, res) => {
+  const { id } = req.params
+  res.render("products/new", { categories, id })
+})
+
+app.post("/farms/:id/products", async (req, res) => {
+  const { id } = req.params
+  const farm = await Farm.findById(id)
+  const { name, price, category } = req.body
+  const product = new Product({ name, price, category })
+  farm.products.push(product) //* 配列追加
+  product.farm = farm
+  await farm.save()
+  await product.save()
+  res.redirect(`/farms/${farm._id}`)
+  // res.send(farm)
+
+  // res.send(req.body)
 })
 
 //
-
-const categories = ["果物", "野菜", "乳製品"]
 
 app.get("/products", async (req, res) => {
   const { category } = req.query //* queryじゃない
