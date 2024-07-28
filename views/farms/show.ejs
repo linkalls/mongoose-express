@@ -10,6 +10,12 @@
     <ul>
       <li>市: <%= farm.city %></li>
       <li>メールアドレス:<%= farm.email %></li>
+      <h2>商品一覧</h2>
+    </ul>
+    <ul>
+      <% for (let product of farm.products){ %> 
+        <li><%= product.name %> </li>
+      <% } %>
     </ul>
     <a href="/farms/<%= farm._id %>/products/new">商品を追加する</a>
     <a href="/farms">農場一覧へ</a>
