@@ -47,9 +47,10 @@ app.get("/farms/:id", async (req, res) => {
   res.render("farms/show", { farm })
 })
 
-app.get("/farms/:id/products/new", (req, res) => {
+app.get("/farms/:id/products/new", async(req, res) => {
   const { id } = req.params
-  res.render("products/new", { categories, id })
+  const farm = await Farm.findById(id)
+  res.render("products/new", { categories, farm })
 })
 
 app.post("/farms/:id/products", async (req, res) => {
@@ -104,8 +105,8 @@ app.post("/products", async (req, res) => {
 app.get("/products/:id", async (req, res) => {
   const { id } = req.params
   // console.log(id)
-  const product = await Product.findById(id) //* id検索 時間かかる
-  // res.send(product)
+  const product = await Product.findById(id).populate("farm","name") //* id検索 時間かかる
+  console.log(product)
   res.render("products/show", { product })
 })
 

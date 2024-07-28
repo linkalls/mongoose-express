@@ -6,8 +6,9 @@
     <title>new product</title>
   </head>
   <body>
-    <h1>商品作成</h1>
-    <form action="/farms/<%= id %>/products" method="post">
+    <h1><%= farm.name %></h1>
+    <h2>商品作成</h2>
+    <form action="/farms/<%= farm._id %>/products" method="post">
       <label for="name">商品名</label>
       <input type="text" name="name" id="name" placeholder="商品名" />
       <label for="price">価格</label>
@@ -20,5 +21,6 @@
       </select>
       <button>submit</button>
     </form>
+    <a href="/farms/<%= farm._id %>">農場に戻る</a>
   </body>
 </html>
